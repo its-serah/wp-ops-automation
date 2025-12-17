@@ -1,14 +1,16 @@
-# wp-ops-automation
+# WhatsApp → Google Sheets Agent
 
-WordPress automation toolkit boilerplate.
+Automation agent that listens to WhatsApp messages and stores them as records in Google Sheets.
 
 ## Overview
 
-This project is set up as a Python-based automation toolkit for WordPress. It is designed to support:
+The goal of this project is:
 
-- Browser automation for the WordPress admin (e.g. login, publishing posts).
-- API automation via the WordPress REST API.
-- Reusable tasks that you can orchestrate from a CLI.
+- Receive WhatsApp messages via a webhook (e.g. Twilio / WhatsApp Cloud API).
+- Normalize the incoming payload into a simple schema.
+- Append a row to a Google Sheet for every message.
+
+This repo is framework-agnostic at the core (plain Python for the logic) so you can plug it into any HTTP entrypoint (Flask, FastAPI, Cloud Function, n8n, Make, Zapier, etc.).
 
 ## Getting started
 
@@ -25,21 +27,22 @@ source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt
 ```
 
-3. Copy the example environment file and fill in your WordPress settings:
+3. Configure environment:
 
-```bash
-cp .env.example .env
-```
+- Create a `.env` (or export env vars) for:
+  - WhatsApp verification token / secrets (if needed by your provider).
+  - Google service account JSON path or credentials.
+  - Target Google Sheet ID and sheet/tab name.
 
-4. Run the CLI help to see available commands:
+4. Use the core handler in your webhook:
 
-```bash
-python -m wp_ops_automation.cli --help
-```
+- Import the core handler from the package (to be implemented) and call it with the incoming JSON body.
+- The handler returns a normalized record and appends it to Google Sheets.
 
-## Next steps
+## Status
 
-- Add concrete tasks in `wp_ops_automation/tasks/` (e.g. publish_post, bulk_update_meta).
-- Extend `wp_ops_automation/browser.py` and `wp_ops_automation/api.py` with real automation logic.
-- Wire up more CLI commands in `wp_ops_automation/cli.py`.
-
+- [x] Initial Python boilerplate and repo setup.
+- [ ] WhatsApp payload normalization.
+- [ ] Google Sheets append helper.
+- [ ] HTTP webhook example (FastAPI/Flask).
+- [ ] Basic tests and CLI helpers.
