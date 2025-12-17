@@ -1,3 +1,4 @@
+import logging
 from typing import Any, Dict
 
 from fastapi import FastAPI, Request
@@ -5,6 +6,8 @@ from fastapi.responses import PlainTextResponse
 
 from agent.handler import handle_twilio_whatsapp_webhook
 
+
+logger = logging.getLogger("whatsapp_agent.web")
 
 app = FastAPI(title="WhatsApp -> Google Sheets Agent")
 
@@ -31,7 +34,7 @@ async def twilio_whatsapp_webhook(request: Request) -> PlainTextResponse:
         form = await request.form()
         payload = dict(form)
 
+    logger.info("Incoming /webhook/twilio-whatsapp request content-type=%s", content_type)
     handle_twilio_whatsapp_webhook(payload)
     return PlainTextResponse("OK")
-
 
