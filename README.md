@@ -34,15 +34,28 @@ pip install -r requirements.txt
   - Google service account JSON path or credentials.
   - Target Google Sheet ID and sheet/tab name.
 
-4. Use the core handler in your webhook:
+4. Run the FastAPI webhook locally:
 
-- Import the core handler from the package (to be implemented) and call it with the incoming JSON body.
-- The handler returns a normalized record and appends it to Google Sheets.
+```bash
+uvicorn web:app --reload --port 8000
+```
+
+5. Point your WhatsApp provider (e.g. Twilio) to the webhook:
+
+- Webhook URL: `https://<your-host-or-ngrok>/webhook/twilio-whatsapp`
+- HTTP method: `POST`
+- Content type:
+  - Twilio default (form-encoded) is supported, or
+  - `application/json` if you enable JSON on Twilio.
+
+Every incoming message hitting this endpoint is normalized and appended as a new row in your configured Google Sheet.
 
 ## Status
 
 - [x] Initial Python boilerplate and repo setup.
-- [ ] WhatsApp payload normalization.
-- [ ] Google Sheets append helper.
-- [ ] HTTP webhook example (FastAPI/Flask).
-- [ ] Basic tests and CLI helpers.
+- [x] WhatsApp (Twilio-style) payload normalization.
+- [x] Google Sheets append helper.
+- [x] HTTP webhook example (FastAPI).
+- [x] CLI helper to simulate webhook locally.
+- [ ] Support for other WhatsApp providers (e.g. WhatsApp Cloud API).
+- [ ] Basic tests.
