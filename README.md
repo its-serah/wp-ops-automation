@@ -62,6 +62,20 @@ uvicorn web:app --reload --port 8000
 
 Every incoming message hitting this endpoint is normalized and appended as a new row in your configured Google Sheet.
 
+### Local simulation via CLI
+
+You can test the entire pipeline without exposing an HTTP endpoint by simulating a Twilio webhook from a JSON file:
+
+```bash
+python cli.py simulate_twilio_webhook samples/twilio_message.json
+```
+
+This will:
+
+- Load the sample Twilio-like payload.
+- Pass it through the same handler used by the FastAPI endpoint.
+- Append a row to Google Sheets using your configured environment.
+
 ## Status
 
 - [x] Initial Python boilerplate and repo setup.

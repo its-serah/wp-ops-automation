@@ -1,0 +1,8 @@
+{
+  "From": "whatsapp:+12345550100",
+  "To": "whatsapp:+12345550999",
+  "Body": "Hello from Twilio test message!",
+  "MessageSid": "SMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "SmsTimestamp": "2025-01-01T12:00:00"
+}
+
