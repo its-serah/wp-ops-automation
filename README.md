@@ -76,6 +76,43 @@ This will:
 - Pass it through the same handler used by the FastAPI endpoint.
 - Append a row to Google Sheets using your configured environment.
 
+## Architecture
+
+At a high level, the flow is:
+
+1. **Transport** – `web.py` exposes a FastAPI endpoint (`/webhook/twilio-whatsapp`) that accepts Twilio webhook calls (form or JSON).
+2. **Handler** – `agent/handler.py` contains `handle_twilio_whatsapp_webhook`, which orchestrates:
+   - loading configuration (`agent/env.py`),
+   - normalizing the payload (`agent/normalize.py`),
+   - appending to Google Sheets (`agent/sheets.py`).
+3. **Domain model** – `agent/models.py` defines `IncomingMessage`, a provider-agnostic representation of a WhatsApp message.
+4. **Tooling** – `cli.py` provides a local entry point to replay sample payloads through the same handler.
+
+This separation keeps the HTTP layer thin and the core logic reusable in other environments (e.g. Cloud Functions, background workers).
+
+## Development
+
+### Running tests
+
+Install dev dependencies (already in `requirements.txt`) and run:
+
+```bash
+pytest
+```
+
+This currently exercises the Twilio normalizer; you can extend it as the agent grows.
+
+### Logging
+
+The project uses Python's built-in `logging` module. To see logs during local development, run your app with a basic configuration, for example:
+
+```bash
+export LOGLEVEL=INFO
+python -m uvicorn web:app --reload --port 8000
+```
+
+Or configure logging explicitly at process startup (e.g. in your process manager or entry script) to route logs to stdout or a log aggregation service.
+
 ## Status
 
 - [x] Initial Python boilerplate and repo setup.
