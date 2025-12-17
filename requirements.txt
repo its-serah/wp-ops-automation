@@ -4,3 +4,4 @@ google-auth
 typer[all]
 fastapi
 uvicorn[standard]
+pytest
