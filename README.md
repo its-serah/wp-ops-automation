@@ -30,9 +30,9 @@ pip install -r requirements.txt
 3. Configure environment:
 
 - Create a `.env` (or export env vars) for:
-  - WhatsApp verification token / secrets (if needed by your provider).
-  - Google service account JSON path or credentials.
-  - Target Google Sheet ID and sheet/tab name.
+  - `GCP_SERVICE_ACCOUNT_JSON` → absolute path to your Google service account JSON.
+  - `SHEETS_SPREADSHEET_ID` → ID of the target Google Sheet.
+  - `SHEETS_WORKSHEET_NAME` → sheet/tab name (e.g. `Sheet1`).
 
 4. Run the FastAPI webhook locally:
 
