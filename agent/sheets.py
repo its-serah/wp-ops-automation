@@ -12,6 +12,18 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive",
 ]
 
+# Column order used when writing rows to the sheet.
+# Keep this in sync with the documentation in README.md.
+COLUMNS: List[str] = [
+    "timestamp_iso",
+    "provider",
+    "from_number",
+    "to_number",
+    "body",
+    "message_id",
+    "contact_name",
+]
+
 
 @dataclass
 class SheetsConfig:
@@ -65,4 +77,3 @@ def append_batch(config: SheetsConfig, messages: Sequence[IncomingMessage]) -> N
         for msg in messages
     ]
     worksheet.append_rows(rows, value_input_option="USER_ENTERED")
-

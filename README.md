@@ -34,6 +34,18 @@ pip install -r requirements.txt
   - `SHEETS_SPREADSHEET_ID` → ID of the target Google Sheet.
   - `SHEETS_WORKSHEET_NAME` → sheet/tab name (e.g. `Sheet1`).
 
+### Sheet schema
+
+Rows are appended with the following columns, in order:
+
+1. `timestamp_iso` – ISO 8601 timestamp of when the message was received/normalized.
+2. `provider` – source provider identifier (e.g. `twilio`).
+3. `from_number` – sender WhatsApp number (no `whatsapp:` prefix).
+4. `to_number` – receiving WhatsApp number.
+5. `body` – text content of the message.
+6. `message_id` – provider-specific message ID (if present).
+7. `contact_name` – optional contact name (currently `None` for Twilio).
+
 4. Run the FastAPI webhook locally:
 
 ```bash
